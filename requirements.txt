@@ -1,7 +1,5 @@
-python-dotenv
-requests
-sounddevice
-edge-tts>=6.1.0
-playsound==1.2.2
-pydup
-numpy scipy
+python-dotenv>=1.0.0
+requests>=2.31.0
+sounddevice>=0.4.6
+numpy>=1.24.0
+scipy>=1.10.0
