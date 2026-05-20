@@ -1,0 +1,14 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp
+*.temp
+*.wav
+*.mp3
+*.pcm
+*.s16
+.vscode/
+.DS_Store
