@@ -10,4 +10,4 @@ A production-focused Thai call center voice bot with:
 __version__ = "1.0.0"
 __author__ = "CallSiam Team"
 
-__all__ = ["configuration", "constants", "controllers", "schemas", "services"]
+__all__ = ["configuration", "constants", "controllers", "models", "services"]

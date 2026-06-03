@@ -9,13 +9,111 @@ from typing import Any, Optional
 
 from dotenv import load_dotenv
 
-from app.schemas import AudioConfig, VADConfig
+from app.models import AudioConfig, VADConfig
 
 logger = logging.getLogger(__name__)
 
 # Constants
 DEFAULT_CONFIG_SITE = "development"
 CONFIG_FILE_TEMPLATE = "config.{site}.json"
+
+
+@dataclass
+class APITimeouts:
+    """API timeout configuration."""
+
+    default: int
+    long: int
+    short: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> "APITimeouts":
+        """Create APITimeouts config from dictionary.
+
+        Args:
+            obj: Dictionary containing timeout configuration.
+
+        Returns:
+            APITimeouts configuration instance.
+        """
+        return APITimeouts(
+            default=int(obj.get("default", 30)),
+            long=int(obj.get("long", 60)),
+            short=int(obj.get("short", 20)),
+        )
+
+
+@dataclass
+class TextProcessing:
+    """Text processing configuration."""
+
+    min_text_length: int
+    sentence_pattern: str
+    max_buffer_length: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> "TextProcessing":
+        """Create TextProcessing config from dictionary.
+
+        Args:
+            obj: Dictionary containing text processing configuration.
+
+        Returns:
+            TextProcessing configuration instance.
+        """
+        return TextProcessing(
+            min_text_length=int(obj.get("min_text_length", 2)),
+            sentence_pattern=str(
+                obj.get("sentence_pattern", r"(ครับ|ค่ะ|นะ|จ้า|เลย|ไหม|[.!?])")
+            ),
+            max_buffer_length=int(obj.get("max_buffer_length", 30)),
+        )
+
+
+@dataclass
+class Business:
+    """Business logic configuration."""
+
+    payment_due_day: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> "Business":
+        """Create Business config from dictionary.
+
+        Args:
+            obj: Dictionary containing business configuration.
+
+        Returns:
+            Business configuration instance.
+        """
+        return Business(
+            payment_due_day=int(obj.get("payment_due_day", 25)),
+        )
+
+
+@dataclass
+class ExternalAPIs:
+    """External API configuration."""
+
+    deepgram_url: str
+    ffmpeg_timeout: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> "ExternalAPIs":
+        """Create ExternalAPIs config from dictionary.
+
+        Args:
+            obj: Dictionary containing external API configuration.
+
+        Returns:
+            ExternalAPIs configuration instance.
+        """
+        return ExternalAPIs(
+            deepgram_url=str(
+                obj.get("deepgram_url", "https://api.deepgram.com/v1/listen")
+            ),
+            ffmpeg_timeout=int(obj.get("ffmpeg_timeout", 10)),
+        )
 
 
 @dataclass
@@ -83,6 +181,10 @@ class Configuration:
     vad: VADConfig
     tts: TTS
     llm: LLM
+    api_timeouts: APITimeouts
+    text_processing: TextProcessing
+    business: Business
+    external_apis: ExternalAPIs
 
     @staticmethod
     def from_dict(obj: Any) -> "Configuration":
@@ -134,6 +236,18 @@ class Configuration:
         # LLM Configuration
         llm = LLM.from_dict(obj.get("llm", {}))
 
+        # API Timeouts Configuration
+        api_timeouts = APITimeouts.from_dict(obj.get("api_timeouts", {}))
+
+        # Text Processing Configuration
+        text_processing = TextProcessing.from_dict(obj.get("text_processing", {}))
+
+        # Business Configuration
+        business = Business.from_dict(obj.get("business", {}))
+
+        # External APIs Configuration
+        external_apis = ExternalAPIs.from_dict(obj.get("external_apis", {}))
+
         return Configuration(
             deepgram_api_key=deepgram_api_key,
             openrouter_api_key=openrouter_api_key,
@@ -144,6 +258,10 @@ class Configuration:
             vad=vad,
             tts=tts,
             llm=llm,
+            api_timeouts=api_timeouts,
+            text_processing=text_processing,
+            business=business,
+            external_apis=external_apis,
         )
 
     @staticmethod

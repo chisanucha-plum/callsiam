@@ -1,39 +1,24 @@
-"""Shared constants used across multiple modules.
+"""Shared technical constants used across multiple modules.
 
-This module contains constants that are used by multiple services or
-have business logic significance across the application.
+This module contains only technical constants that should NOT be configurable
+(e.g., data types, encoding formats). Business logic values and tuneable
+parameters belong in configuration files.
 """
 
 # ============================================================================
-# API Timeouts
+# Audio Technical Constants (not configurable)
 # ============================================================================
-DEFAULT_API_TIMEOUT_SECONDS = 30
-LONG_API_TIMEOUT_SECONDS = 60
-SHORT_API_TIMEOUT_SECONDS = 20
+AUDIO_CHANNELS: int = 1
+AUDIO_DTYPE: str = "int16"
 
 # ============================================================================
-# Audio Constants (shared across services)
+# Text Processing Patterns
 # ============================================================================
-AUDIO_CHANNELS = 1
-AUDIO_DTYPE = "int16"
+# Thai character range for text processing (Unicode range - technical constant)
+THAI_CHAR_PATTERN: str = r"(?<=[ก-๙])\s(?=[ก-๙])"
 
 # ============================================================================
-# Text Processing
+# Server-Sent Events (SSE) Protocol Constants
 # ============================================================================
-# Thai character range for text processing
-THAI_CHAR_PATTERN = r"(?<=[ก-๙])\s(?=[ก-๙])"
-
-# ============================================================================
-# Business Logic
-# ============================================================================
-# Payment due day for call center bot
-PAYMENT_DUE_DAY = 25
-
-# Minimum text length for processing
-MIN_TEXT_LENGTH = 2
-
-# ============================================================================
-# Server-Sent Events (SSE)
-# ============================================================================
-SSE_DATA_PREFIX = "data:"
-SSE_DONE_MESSAGE = "[DONE]"
+SSE_DATA_PREFIX: str = "data:"
+SSE_DONE_MESSAGE: str = "[DONE]"
