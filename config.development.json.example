@@ -26,5 +26,22 @@
     "model": "openai/gpt-4o-mini",
     "temperature": 0.5,
     "max_tokens": 80
+  },
+  "api_timeouts": {
+    "default": 30,
+    "long": 60,
+    "short": 20
+  },
+  "text_processing": {
+    "min_text_length": 2,
+    "sentence_pattern": "(ครับ|ค่ะ|นะ|จ้า|เลย|ไหม|[.!?])",
+    "max_buffer_length": 30
+  },
+  "business": {
+    "payment_due_day": 25
+  },
+  "external_apis": {
+    "deepgram_url": "https://api.deepgram.com/v1/listen",
+    "ffmpeg_timeout": 10
   }
 }
