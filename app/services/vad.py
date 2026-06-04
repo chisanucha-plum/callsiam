@@ -11,7 +11,7 @@ from app.configuration import Configuration
 logger = logging.getLogger(__name__)
 
 
-class VADSegmenter:
+class VADService:
     """Voice Activity Detection segmenter using RMS energy threshold."""
 
     def __init__(self, config: Configuration) -> None:
@@ -40,7 +40,7 @@ class VADSegmenter:
         """Reset VAD state to initial conditions."""
         self._triggered = False
         self._silence_frames = 0
-        self._voic ed_frames = []
+        self._voiced_frames = []
         self._padding.clear()
 
     def process(self, frame_bytes: bytes) -> Optional[bytes]:
